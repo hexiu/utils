@@ -88,6 +88,10 @@ func (v *Vector) Remove(i int) interface{} {
 		return -1
 	}
 	val := v.data[i]
+	if v.length == 1 {
+		v.length--
+		return val
+	}
 	for ; i < v.length; i++ {
 		v.data[i] = v.data[i+1]
 	}
