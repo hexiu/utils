@@ -1,8 +1,9 @@
 package timepro
 
 import (
-	"standAlone/utils/log"
 	"time"
+
+	"github.com/hexiu/utils/log"
 )
 
 // StringToTime 序列化字符串时间
