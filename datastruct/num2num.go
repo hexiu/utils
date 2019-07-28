@@ -6,6 +6,7 @@ import (
 	"time"
 )
 
+// JinZhiChange 进制转换
 func JinZhiChange(num, jz int) (rel string) {
 	if jz == 1 {
 		return strconv.Itoa(num)
@@ -27,6 +28,7 @@ func JinZhiChange(num, jz int) (rel string) {
 	return
 }
 
+// ShangYu 找商和余
 func ShangYu(num, jz int) (shang, yu int) {
 	return num / jz, num % jz
 }

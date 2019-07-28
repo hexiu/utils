@@ -9,6 +9,7 @@ type Stack interface {
 	Pop() (val interface{})
 	Push(x interface{}) bool
 	Top() interface{}
+	Empty() bool
 }
 
 // NewStack 初始化栈
@@ -42,6 +43,14 @@ func (s *stack) Top() interface{} {
 	return s.Get(s.Size() - 1)
 }
 
+// Empty 查看
+func (s *stack) Empty() bool {
+	if s.Size() == 0 {
+		return true
+	}
+	return false
+}
+
 type nodestack struct {
 	Posi
 }
@@ -72,4 +81,11 @@ func (n *nodestack) Push(x interface{}) bool {
 	node.data = x
 	n.InsertAsPred(node)
 	return true
+}
+
+func (n *nodestack) Empty() bool {
+	if n.length == 0 {
+		return true
+	}
+	return false
 }

@@ -1,6 +1,8 @@
 package datastruct
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // bubbleSort 起泡排序
 func bubbleSort(v []interface{}, f func(v1, v2 interface{}) bool) bool {
@@ -118,4 +120,64 @@ func merge2(v []interface{}, lo, mi, hi int, f func(v1, v2 interface{}) bool) bo
 	// fmt.Println("over: lo:", lo, "j:", j, "k:", k, "lo:", lo, "mi:", mi, "hi:", hi, a, b, v[:hi], c)
 
 	return true
+}
+
+// 快排序的变种
+func qsort(list []interface{}, lo, hi int) (index int) {
+	if lo == hi {
+		return -1
+	}
+	key := list[lo].(int)
+	i := lo
+	// i - j 是 L， j - h G
+	j := 0
+	for j = lo + 1; j <= hi; j++ {
+		if list[j].(int) < key {
+			i++
+			list[j], list[i] = list[i], list[j]
+			fmt.Println("list:", key, list[lo:hi+1], i, j)
+		}
+
+	}
+	list[i], list[lo] = list[lo], list[i]
+	fmt.Println("list list:", list[lo:hi+1], i, j, lo, hi)
+	return i
+}
+
+// Qsort 快速排序
+func Qsort(list []interface{}, lo, hi int) bool {
+	if lo >= hi {
+		return true
+	}
+	index := qsort2(list, lo, hi)
+	
+	Qsort(list, lo, index)
+
+	Qsort(list, index+1, hi)
+	return true
+}
+
+func qsort2(list []interface{}, lo, hi int) (mid int) {
+	if hi == lo {
+		return
+	}
+	l := lo
+	r := hi
+	fmt.Println(list, l, r, list[l], list[r])
+	tmp := list[l].(int)
+	for l < r && l != r {
+		for l < r && list[r].(int) >= tmp {
+			r--
+		}
+		list[l] = list[r]
+		
+		for l < r && list[l].(int) <= tmp {
+			l++
+		}
+		list[r] = list[l]
+		
+	}
+	list[l] = tmp
+
+	return l
 }
