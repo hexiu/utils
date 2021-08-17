@@ -20,8 +20,11 @@ func Test_BinTree(t *testing.T) {
 	visit := func(binnode *BinNode) {
 		fmt.Println(binnode.Data)
 	}
+	// 先序遍历
 	bintree.Traverse(bintree.root, visit)
+	// 中序遍历
 	bintree.MidTraverse(bintree.root, visit)
+	// 后序遍历
 	bintree.AfterTraverse(bintree.root, visit)
 	t.Log("ok")
 }
