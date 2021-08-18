@@ -59,10 +59,22 @@ func (b *BinNode) InsertRc(x *BinNode) {
 }
 
 // updateheight 更新高度
-func updateheight(binnode *BinNode) {
+func updateheight(binnode *BinNode, h int) {
 
-	for binnode.height != -1 {
+	for binnode != nil {
 		// binnode.height
+		if binnode.LC != nil && binnode.RC != nil {
+			if binnode.LC.height > binnode.RC.height {
+				binnode.height = binnode.LC.height + h
+				binnode = binnode.Parents
+				continue
+			}
+			binnode.height = binnode.RC.height + h
+			binnode = binnode.Parents
+			continue
+		}
+		binnode.height += h
+		binnode = binnode.Parents
 	}
 }
 
@@ -80,29 +92,16 @@ func (b *BinNode) Size() (size int) {
 }
 
 // updateHeight 更新节点的高度
-func (bp *BinPosi) updateHeight(b *BinNode) {
+func (bp *BinPosi) updateHeight(b *BinNode, h int) {
 	if b == nil {
 		return
 	}
-	if b.LC == nil {
-		return
-	}
-	if b.RC == nil {
-		return
-	}
-	if b.LC.height > b.RC.height {
-		b.height = b.LC.height + 1
-	} else {
-		b.height = b.RC.height + 1
-	}
+	updateheight(b, h)
 }
 
 // updatePHeight 更新b以及祖先的高度
-func (bp *BinPosi) updatePHeight(b *BinNode) {
-	for b != nil {
-		bp.updateHeight(b.Parents)
-		b = b.Parents
-	}
+func (bp *BinPosi) updatePHeight(b *BinNode, h int) {
+	bp.updateHeight(b, h)
 	return
 }
 
@@ -114,17 +113,18 @@ func (bp *BinPosi) Size() (size int) {
 // InsertLC 插入左子树
 func (bp *BinPosi) InsertLC(x *BinNode, e *BinNode) *BinNode {
 	bp.size++
-	fmt.Println("update:", x, e)
+	fmt.Println("l update:", x, e)
 	x.InsertLc(e)
-	bp.updatePHeight(e)
+	bp.updatePHeight(x, 1)
 	return x.LC
 }
 
 // InsertRC 插入右子树
 func (bp *BinPosi) InsertRC(x *BinNode, e *BinNode) *BinNode {
 	bp.size++
+	fmt.Println("r update:", x, e)
 	x.InsertRc(e)
-	bp.updatePHeight(x)
+	bp.updatePHeight(x, 1)
 	return x.RC
 }
 

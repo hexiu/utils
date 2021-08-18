@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-08-18 15:27:04
  * @LastEditors: jaxiu
- * @LastEditTime: 2021-08-18 17:09:16
+ * @LastEditTime: 2021-08-18 20:11:02
  * @FilePath: /utils/datastruct/bst_test.go
  */
 
@@ -22,6 +22,7 @@ func Test_BST(t *testing.T) {
 		}
 		return false
 	})
+	bst.root = nil
 	bst.Insert(3)
 	bst.Insert(5)
 	bst.Insert(6)
@@ -33,11 +34,11 @@ func Test_BST(t *testing.T) {
 		if binnode == nil {
 			return
 		}
-		fmt.Println(binnode.Data)
+		fmt.Println(binnode.Data, binnode.height)
 	})
 	bst.Remove(6)
 	fmt.Println("mid:")
 	bst.MidTraverse(bst.root, func(binnode *BinNode) {
-		fmt.Println(binnode.Data)
+		fmt.Println(binnode.Data, binnode.height)
 	})
 }

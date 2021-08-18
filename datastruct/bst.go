@@ -29,6 +29,7 @@ func (b *bst) Insert(v interface{}) {
 	if b.root == nil {
 		b.root = &BinNode{Data: v, height: 0}
 		b.size = 1
+		// b.updateHeight(b.root, 1)
 		return
 	}
 	node := b.root
@@ -69,37 +70,47 @@ func (b *bst) removeAt(v interface{}) bool {
 			break
 		}
 		if node.Data == v {
-			if node.LC == nil {
-				node.RC.Parents = node.Parents
-				node.Parents.RC = node.RC
-				if node.Parents == nil {
-					b.root = node.RC
-				}
-			} else if node.RC == nil {
-				node.LC.Parents = node.Parents
-				node.Parents.LC = node.LC
-				if node.Parents == nil {
-					b.root = node.LC
+			if node.LC == node.RC {
+				if node.Parents.LC == node {
+					node.Parents.LC = nil
+				} else {
+					node.Parents.RC = nil
 				}
 			} else {
-				succ := b.Succ(node)
-				fmt.Println("succ:", succ)
-				{
-					// succ 和当前节点做交换
-					succ.Data, node.Data = node.Data, succ.Data
-					// 所有的指针节点信息交换
-					// 交换之后 对 node 信息进行处理
-					if succ.LC == nil {
-						succ.RC.Parents = succ.Parents
-						fmt.Println("succ.RC.P:", succ.Parents.Data, succ.Data)
-						succ.Parents.RC = succ.RC
-						fmt.Println("succ.P.LC", succ.RC.Data)
-						fmt.Println("root", b.root.LC.Data, b.root.RC.Data)
+				if node.LC == nil {
+					node.RC.Parents = node.Parents
+					node.Parents.RC = node.RC
+					if node.Parents == nil {
+						b.root = node.RC
+					}
+				} else if node.RC == nil {
+					node.LC.Parents = node.Parents
+					node.Parents.LC = node.LC
+					if node.Parents == nil {
+						b.root = node.LC
+					}
+				} else {
+					succ := b.Succ(node)
+					fmt.Println("succ:", succ)
+					{
+						// succ 和当前节点做交换
+						succ.Data, node.Data = node.Data, succ.Data
+						// 所有的指针节点信息交换
+						// 交换之后 对 node 信息进行处理
+						if succ.LC == nil {
+							succ.RC.Parents = succ.Parents
+							fmt.Println("succ.RC.P:", succ.Parents.Data, succ.Data)
+							succ.Parents.RC = succ.RC
+							fmt.Println("succ.P.LC", succ.RC.Data)
+							fmt.Println("root", b.root.LC.Data, b.root.RC.Data)
+							return true
+						}
 						return true
 					}
-					return true
 				}
+
 			}
+			b.updateHeight(node, -1)
 		}
 		if b.SortFunc(v, node.Data) {
 			node = node.LC
