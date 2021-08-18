@@ -143,9 +143,9 @@ func (bp *BinPosi) MidTraverse(b *BinNode, f func(binnode *BinNode)) {
 	if b == nil {
 		return
 	}
-	bp.Traverse(b.LC, f)
+	bp.MidTraverse(b.LC, f)
 	f(b)
-	bp.Traverse(b.RC, f)
+	bp.MidTraverse(b.RC, f)
 }
 
 // AfterTraverse 中序遍历
@@ -153,9 +153,25 @@ func (bp *BinPosi) AfterTraverse(b *BinNode, f func(binnode *BinNode)) {
 	if b == nil {
 		return
 	}
-	bp.Traverse(b.RC, f)
-	bp.Traverse(b.LC, f)
+	bp.AfterTraverse(b.RC, f)
+	bp.AfterTraverse(b.LC, f)
 	f(b)
+}
+
+func (bp *BinPosi) Succ(n *BinNode) (b *BinNode) {
+	n = n.RC
+	for {
+		if n != nil {
+			if n.LC != nil {
+				n = n.LC
+				continue
+			}
+			b = n
+			return
+		}
+		break
+	}
+	return
 }
 
 // func visit(b *BinNode) {
