@@ -60,20 +60,29 @@ func (b *BinNode) InsertRc(x *BinNode) {
 
 // updateheight 更新高度
 func updateheight(binnode *BinNode, h int) {
-
+	if binnode == nil {
+		return
+	}
+	binnode.height += h
+	binnode = binnode.Parents
+	// binnode.height
 	for binnode != nil {
-		// binnode.height
 		if binnode.LC != nil && binnode.RC != nil {
 			if binnode.LC.height > binnode.RC.height {
-				binnode.height = binnode.LC.height + h
+				binnode.height = binnode.LC.height + 1
 				binnode = binnode.Parents
 				continue
 			}
-			binnode.height = binnode.RC.height + h
+			binnode.height = binnode.RC.height + 1
 			binnode = binnode.Parents
 			continue
 		}
-		binnode.height += h
+		if binnode.LC == nil {
+			binnode.height = binnode.RC.height + 1
+			binnode = binnode.Parents
+			continue
+		}
+		binnode.height = binnode.LC.height + 1
 		binnode = binnode.Parents
 	}
 }

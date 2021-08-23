@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-08-18 15:27:04
  * @LastEditors: jaxiu
- * @LastEditTime: 2021-08-18 20:11:02
+ * @LastEditTime: 2021-08-23 10:50:36
  * @FilePath: /utils/datastruct/bst_test.go
  */
 
@@ -36,6 +36,7 @@ func Test_BST(t *testing.T) {
 		}
 		fmt.Println(binnode.Data, binnode.height)
 	})
+	fmt.Println("remove 6: ")
 	bst.Remove(6)
 	fmt.Println("mid:")
 	bst.MidTraverse(bst.root, func(binnode *BinNode) {

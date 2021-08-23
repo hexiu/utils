@@ -83,12 +83,17 @@ func (b *bst) removeAt(v interface{}) bool {
 					if node.Parents == nil {
 						b.root = node.RC
 					}
+					fmt.Println("updateHeight: ", node.Data, node.height)
+					b.updateHeight(node, -1)
+					return true
 				} else if node.RC == nil {
 					node.LC.Parents = node.Parents
 					node.Parents.LC = node.LC
 					if node.Parents == nil {
 						b.root = node.LC
 					}
+					b.updateHeight(node, -1)
+					return true
 				} else {
 					succ := b.Succ(node)
 					fmt.Println("succ:", succ)
@@ -97,20 +102,20 @@ func (b *bst) removeAt(v interface{}) bool {
 						succ.Data, node.Data = node.Data, succ.Data
 						// 所有的指针节点信息交换
 						// 交换之后 对 node 信息进行处理
-						if succ.LC == nil {
-							succ.RC.Parents = succ.Parents
-							fmt.Println("succ.RC.P:", succ.Parents.Data, succ.Data)
-							succ.Parents.RC = succ.RC
-							fmt.Println("succ.P.LC", succ.RC.Data)
-							fmt.Println("root", b.root.LC.Data, b.root.RC.Data)
-							return true
-						}
+
+						succ.RC.Parents = succ.Parents
+						fmt.Println("succ.RC.P:", succ.Parents.Data, succ.Data)
+						succ.Parents.RC = succ.RC
+						fmt.Println("succ.P.LC", succ.RC.Data)
+						fmt.Println("root", b.root.LC.Data, b.root.RC.Data)
+						b.updateHeight(succ, -1)
 						return true
+
 					}
+
 				}
 
 			}
-			b.updateHeight(node, -1)
 		}
 		if b.SortFunc(v, node.Data) {
 			node = node.LC
